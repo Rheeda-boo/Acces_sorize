@@ -3,6 +3,10 @@ const app = express();
 
 const database = require("./config/db")
 
+const userRouter = require("./routers/user");
+
+app.use(express.json());
+app.use("/user", userRouter);
 
 const port = 5000;
 
