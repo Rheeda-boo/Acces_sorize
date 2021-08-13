@@ -58,20 +58,17 @@ module.exports = {
         if(!email || !password) {
             res.send({msg: "Please fill all the fields"})
         }
-        else  {
-        User.findOne({email: email}).exec((err, user) => {
-            if(user){
-                bcrypt.compare(password, user.password)
-                .then(doMatch => {
-                    if (doMatch) {
-                        res.send("User LoggedIn");
-                    }
-                })
-            }
-        })
-    }
-    }
-
-
-   
+        else{
+            User.findOne({email: email}).exec((err, user) => {
+                if(user){
+                    bcrypt.compare(password, user.password)
+                    .then(doMatch => {
+                        if (doMatch) {
+                            return res.send({ message: `Welcome ${user.name}` }); 
+                        }
+                    })
+                }
+            })
+        }
+    }    
 }
