@@ -42,7 +42,7 @@ module.exports = {
                             newUser
                             .save()
                             .then((value) => {
-                                res.send("Guest Created");
+                                res.send("User Created");
                             })
                             .catch((value) => console.log(value));
                         })
@@ -51,19 +51,24 @@ module.exports = {
             })
             
         };
-    }
+    },
 
-
-    // {
-    //     User.findone({email: email}).exec((err, user) => {
-    //         if(user){
-    //             bcrypt.compare(password, user.password)
-    //             .then(doMatch => {
-    //                 if (doMatch) {
-                        
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }
+    login: (req,res) => {
+        const {email, password} = req.body;
+        if(!email || !password) {
+            res.send({msg: "Please fill all the fields"})
+        }
+        else{
+            User.findOne({email: email}).exec((err, user) => {
+                if(user){
+                    bcrypt.compare(password, user.password)
+                    .then(doMatch => {
+                        if (doMatch) {
+                            return res.send({ message: `Welcome ${user.name}` }); 
+                        }
+                    })
+                }
+            })
+        }
+    }    
 }
