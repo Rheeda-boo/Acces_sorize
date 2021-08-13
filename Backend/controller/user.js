@@ -4,7 +4,7 @@ const User = require("../models/user");
 
 
 module.exports = {
-    signup: (req,res) =>{
+    signup: (req,res) => {
         const {name, email, password, password2, phone, location} = req.body;
         if(!name || !email || !password || !password2 || !phone || !location) {
             res.send({msg: "Please fill all the fields"})
@@ -42,7 +42,7 @@ module.exports = {
                             newUser
                             .save()
                             .then((value) => {
-                                res.send("Guest Created");
+                                res.send("User Created");
                             })
                             .catch((value) => console.log(value));
                         })
@@ -51,19 +51,27 @@ module.exports = {
             })
             
         };
+    },
+
+    login: (req,res) => {
+        const {email, password} = req.body;
+        if(!email || !password) {
+            res.send({msg: "Please fill all the fields"})
+        }
+        else  {
+        User.findOne({email: email}).exec((err, user) => {
+            if(user){
+                bcrypt.compare(password, user.password)
+                .then(doMatch => {
+                    if (doMatch) {
+                        res.send("User LoggedIn");
+                    }
+                })
+            }
+        })
+    }
     }
 
 
-    // {
-    //     User.findone({email: email}).exec((err, user) => {
-    //         if(user){
-    //             bcrypt.compare(password, user.password)
-    //             .then(doMatch => {
-    //                 if (doMatch) {
-                        
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }
+   
 }
