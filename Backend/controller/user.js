@@ -63,7 +63,13 @@ module.exports = {
                     bcrypt.compare(password, user.password)
                     .then(doMatch => {
                         if (doMatch) {
-                            return res.send({ message: `Welcome ${user.name}` }); 
+                            // return res.send({ message: `Welcome ${user.name}` });
+                            if (user.role === User){
+                                return res.send({ message: `Welcome ${user.name} (User)` });
+                            } 
+                            else {
+                                return res.send({ message: `Welcome ${user.name} (Admin)` });
+                            }
                         }
                     })
                 }

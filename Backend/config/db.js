@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const connection = mongoose.connection;
 
 mongoose.connect( 
-    "mongodb://localhost:27017/Acces_sorize",
+    "mongodb+srv://acces_sorize:rheeda123@cluster0.2visz.mongodb.net/Acces_sorize",
     {useNewUrlParser: true}, 
     {useUnifiedTopology: true } 
 );
