@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-
+const sendMail = require("../config/mail");
 
 module.exports = {
     signup: (req,res) => {
         const {name, email, password, password2, phone, location} = req.body;
+
         if(!name || !email || !password || !password2 || !phone || !location) {
             res.send({msg: "Please fill all the fields"})
         };
@@ -36,8 +37,7 @@ module.exports = {
                     });
                     bcrypt.genSalt(10, (err, salt) =>
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
-                            if (err) throw err;
-                          
+                            if (err) throw err; 
                             newUser.password = hash;
                             newUser
                             .save()
@@ -64,7 +64,7 @@ module.exports = {
                     .then(doMatch => {
                         if (doMatch) {
                             // return res.send({ message: `Welcome ${user.name}` });
-                            if (user.role === User){
+                            if (user.role === "User"){
                                 return res.send({ message: `Welcome ${user.name} (User)` });
                             } 
                             else {
@@ -73,7 +73,38 @@ module.exports = {
                         }
                     })
                 }
+                else {
+                    res.send({msg: "User does not exist"})
+                }
             })
         }
-    }    
+    },
+
+    checkEmail: (req,res) => {
+        const email = req.body.email;
+        if (!email){
+            res.send({msg: "Please fill the email field"})
+        }
+        else {
+            User.findOne({email: email}).exec((err, user) => {
+                if (!user){
+                    res.send({ msg: "Not a User" })
+                }
+                else {
+                    res.send({ msg: "A User" })
+                }
+            })    
+        }
+
+    },
+    
+    forgotPassword: (req, res) => {
+
+        const { newPassword, newPassword2 } = req.body;
+
+        if (!newPassword || !newPassword2){
+            res.send({msg: "Please fill all the fields"})
+        }
+
+    },
 }
