@@ -105,6 +105,31 @@ module.exports = {
         if (!newPassword || !newPassword2){
             res.send({msg: "Please fill all the fields"})
         }
+        if (newPassword !== newPassword2){
+            res.send({msg: "Password mismatch"})
+        }
+        else {
+            User.findOne().exec((err, user) => {
+                user.password = newPassword;
+
+                bcrypt.genSalt(10, (err, salt) =>
+                    bcrypt.hash(user.password, salt, (err, hash) => {
+                        if (err) throw err; 
+                        user.password = hash;
+                        user
+                        .save()
+                        .then((value) => {
+                            res.send("Password Changed");
+                        })
+                        .catch((value) => console.log(value));
+                    })
+                )
+            })
+        }
 
     },
+
+    chat: (req,res) => {
+        
+    }
 }

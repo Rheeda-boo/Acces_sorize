@@ -86,5 +86,65 @@ module.exports = {
                 }    
             })
         }
-    }   
+    },
+    
+    allProducts: (rea, res) => {
+        Product.find({}, (err, product) => {
+            if (err) {
+                console.error(err);
+                res.send({err: err});
+                return;
+            }
+            else {
+                productNum = product.length;
+                console.log(productNum);
+                res.send({"Porduct": productNum});
+            }
+        })
+    },
+
+    allUsers: (req, res) => {
+        User.find({}, (err, user) => {
+            if (err) {
+                console.error(err);
+                res.send({err: err});
+                return;
+            }
+            else {
+                userNum = user.length;
+                console.log(userNum);
+                res.send({"Users": userNum});
+            }
+        })
+    },
+
+    deleteUser: (req, res) => {
+        const uid = req.params.id;
+        User.deleteOne({_id: mongoose.Types.ObjectId(uid)}, (err) => {
+            if (err) {
+                console.error(err);
+                res.send({error: err});
+                erturn
+            }
+            else {
+                console.log("User DELETED");
+                res.send({ msg: "User DELETED" });
+            }
+        })
+    },
+
+    deleteProduct: (req, res) => {
+        const pid = req.params.id;
+        Product.deleteOne({_id: mongoose.Types.ObjectId(pid)}, (err) => {
+            if (err) {
+                console.error(err);
+                res.send({error: err});
+                return
+            }
+            else {
+                console.log("Product DELETED");
+                res.send({ msg: "Product DELETED" });
+            }
+        })
+    },
 }

@@ -1,10 +1,10 @@
 const nodemailer = require("nodemailer");
-const googleapis = require("googleapis");
+const { google } = require("googleapis");
 
-const CLIENT_ID = "807335501920-as59i0p9mqvobmdkttmgdrh3vm1hbldn.apps.googleusercontent.com";
-const CLIENT_SECRET = "vwymFgdH0YKKBUE7da_F7Nhw";
+const CLIENT_ID = "615121449039-3m4039q8pjhha4gkqv8jq2j6bkd2ddpr.apps.googleusercontent.com";
+const CLIENT_SECRET = "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";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-const REFRESH_TOKEN = "1//04d73uYSeAb6kCgYIARAAGAQSNwFL9Ir51VJTV5zMpxGWxqPNA11hO7ru_xXbrKzvPEBMVH3OsLN2xHNgwl9gcnjjm-Tm9_NzQ";
+const REFRESH_TOKEN = "1//04jmgsV_KnEtUCgYIARAAGAQSNwF-L9Ir8DVhUbPqlh_xIm_4qaJ5pebTeEbAarqGy3mOs7UFNF25UbY1E3vLujzMXxf75Sfl_-c";
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
@@ -24,16 +24,12 @@ module.exports.sendMail = async (to, subject, html) => {
         }
       });
       const mailOptions = {
-        from: 'Acces_sorize <rheeda.beecha@gmail.com>',
-        to,
+        from: 'Acces_sorize <farida.beacher@amalitech.com>',
+        to: "gordchill@gmail.com",
         subject: "Password Reset",
-        html
-        // attachments: [
-        //   {   // use URL as an attachment
-        //       filename: 'QRcode.png',
-        //       path: visitor.qrcode
-        //   }
-//   ]
+        text: "Yeepi",
+        html: " <h1> Yeepi</h1>"
+        
       };
       const result = await transport.sendMail(mailOptions)
       return result
@@ -41,3 +37,6 @@ module.exports.sendMail = async (to, subject, html) => {
       return error
     }
   }
+
+// sendMail().then(result => console.log("Email sent.....", result))
+// .catch((error) => console.log(error.message));

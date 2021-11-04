@@ -1,7 +1,10 @@
 const express =  require("express");
 const app = express();
 const logger = require("morgan");
-const database = require("./config/db")
+const database = require("./config/db");
+
+const email = require("./config/mail");
+
 
 const userRouter = require("./routers/user");
 const adminRouter = require("./routers/admin");
