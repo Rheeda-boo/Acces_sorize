@@ -119,31 +119,24 @@ module.exports = {
     },
 
     deleteUser: (req, res) => {
-        const uid = req.params.id;
-        User.deleteOne({_id: mongoose.Types.ObjectId(uid)}, (err, user) => {
+        const uid = req.body.id;
+        User.deleteOne({_id:uid}, (err) => {
 
-            if (uid) {
-                res.send({ msg: "User found" });
+            if (err) {
+                console.error(err);
+                res.send({error: err});
+                return
             }
             else {
-                res.send({ msg: "User not found" });
-            }
-
-            // if (err) {
-            //     console.error(err);
-            //     res.send({error: err});
-            //     return
-            // }
-            // else {
-            //     console.log("User DELETED");
-            //     res.send({ msg: "User DELETED" });
-            // }
+                console.log("User DELETED");
+                res.send({ msg: "User DELETED" });
+            };
         })
     },
 
     deleteProduct: (req, res) => {
         const pid = req.params.id;
-        Product.deleteOne({_id: mongoose.Types.ObjectId(pid)}, (err, product) => {
+        Product.deleteOne({_id:pid}, (err) => {
             if (err) {
                 console.error(err);
                 res.send({error: err});
@@ -155,4 +148,4 @@ module.exports = {
             }
         })
     },
-}
+};

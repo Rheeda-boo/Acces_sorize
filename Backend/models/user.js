@@ -23,10 +23,7 @@ const user =  new Schema({
     created:  { 
         type :String,
     },
-    code: {
-        type: String,
-        expireAfterSeconds: 600
-    },
+   
     isVerified: {
         type: Boolean,
         default: false
